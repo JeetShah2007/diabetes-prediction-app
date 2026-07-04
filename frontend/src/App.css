@@ -4,46 +4,79 @@
 
 .page {
   min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem 1rem;
+  padding: 2.5rem 1.5rem;
   background: linear-gradient(135deg, #eef2ff 0%, #f7f7fb 100%);
   font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  display: flex;
+  justify-content: center;
 }
 
-.card {
+.shell {
   width: 100%;
-  max-width: 900px;
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 2.25rem;
-  box-shadow: 0 10px 30px rgba(30, 30, 60, 0.08);
+  max-width: 1100px;
+}
+
+.shell-header {
+  text-align: center;
+  margin-bottom: 1.75rem;
 }
 
 h1 {
   margin: 0 0 0.35rem;
-  font-size: 1.5rem;
+  font-size: 1.7rem;
   color: #22223b;
 }
 
 .subtitle {
-  margin: 0 0 1.5rem;
+  margin: 0;
   color: #6b6b80;
   font-size: 0.9rem;
 }
 
+.panel {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 1.75rem 2rem;
+  box-shadow: 0 10px 30px rgba(30, 30, 60, 0.06);
+}
+
+.panel h2 {
+  font-size: 0.95rem;
+  color: #33334d;
+  margin: 0 0 1rem;
+}
+
+/* --- Top grid: form beside info panel --- */
+
+.top-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 800px) {
+  .top-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --- Form --- */
+
 .form {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1.1rem 1.5rem;
+  gap: 1.1rem 1.25rem;
 }
 
 .actions {
   grid-column: 1 / -1;
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.25rem;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 500px) {
   .form {
     grid-template-columns: 1fr;
   }
@@ -79,12 +112,6 @@ h1 {
   color: #9a9ab0;
 }
 
-.actions {
-  display: flex;
-  gap: 0.75rem;
-  margin-top: 0.25rem;
-}
-
 button {
   flex: 1;
   padding: 0.65rem 1rem;
@@ -115,11 +142,148 @@ button:hover:not(:disabled) {
   opacity: 0.9;
 }
 
-.result {
+.samples-block {
   margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #ececf4;
+}
+
+.samples-label {
+  font-size: 0.78rem;
+  color: #9a9ab0;
+  display: block;
+  margin-bottom: 0.6rem;
+}
+
+.samples-buttons {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.sample-btn {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #d8d8e6;
+  background: #fafaff;
+  color: #6c63ff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.sample-btn:hover {
+  background: #eef0ff;
+}
+
+.tips-block {
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #ececf4;
+}
+
+.tips-list {
+  margin: 0;
+  padding-left: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.tips-list li {
+  font-size: 0.78rem;
+  color: #6b6b80;
+  line-height: 1.45;
+}
+
+/* --- Info panel (beside the form, always visible) --- */
+
+.info-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.info-block:not(:last-child) {
+  border-bottom: 1px solid #ececf4;
+  padding-bottom: 1.25rem;
+}
+
+.why-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.why-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.why-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #6c63ff;
+}
+
+.why-text {
+  font-size: 0.78rem;
+  color: #6b6b80;
+  line-height: 1.4;
+}
+
+.info-note {
+  font-size: 0.75rem;
+  color: #9a9ab0;
+  line-height: 1.4;
+  margin: 0 0 0.85rem;
+}
+
+.legend-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #b7ebc6;
+  flex-shrink: 0;
+}
+
+.legend-label {
+  color: #33334d;
+  font-weight: 600;
+  flex: 1;
+}
+
+.legend-value {
+  color: #6b6b80;
+}
+
+.disclaimer-block {
+  font-size: 0.72rem;
+  color: #a3a3b8;
+  line-height: 1.4;
+}
+
+/* --- Result / error box --- */
+
+.result {
+  margin-top: 1rem;
   padding: 1rem;
   border-radius: 10px;
-  text-align: center;
 }
 
 .result.positive {
@@ -137,6 +301,17 @@ button:hover:not(:disabled) {
   border: 1px solid #ffd591;
   color: #874d00;
   font-size: 0.9rem;
+  text-align: center;
+}
+
+.result-top {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.result-top-text {
+  flex: 1;
 }
 
 .result-label {
@@ -155,25 +330,6 @@ button:hover:not(:disabled) {
   margin-top: 0.5rem;
   font-size: 0.8rem;
   color: #6b6b80;
-}
-
-.disclaimer {
-  margin-top: 1.5rem;
-  font-size: 0.72rem;
-  color: #a3a3b8;
-  text-align: center;
-  line-height: 1.4;
-}
-
-.result-top {
-  display: flex;
-  align-items: center;
-  gap: 1.25rem;
-  text-align: left;
-}
-
-.result-top-text {
-  flex: 1;
 }
 
 .prob-ring {
@@ -210,12 +366,13 @@ button:hover:not(:disabled) {
   letter-spacing: 0.03em;
 }
 
+/* --- Range bars --- */
+
 .range-bars {
-  margin-top: 1.25rem;
+  margin-top: 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 0.9rem;
-  text-align: left;
 }
 
 .range-bar-label {
@@ -271,6 +428,40 @@ button:hover:not(:disabled) {
   color: #6fbf73;
 }
 
+/* --- Analysis / history sections --- */
+
+.analysis-section,
+.history-section {
+  margin-bottom: 1.5rem;
+}
+
+.history-section {
+  margin-bottom: 0;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem 1rem;
+  color: #9a9ab0;
+  font-size: 0.85rem;
+}
+
+.empty-state-icon {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+  opacity: 0.6;
+}
+
+.empty-state p {
+  max-width: 320px;
+  margin: 0;
+  line-height: 1.5;
+}
+
 .history-trend {
   display: flex;
   flex-direction: column;
@@ -283,23 +474,11 @@ button:hover:not(:disabled) {
   height: 56px;
 }
 
-.history {
-  margin-top: 2rem;
-  border-top: 1px solid #ececf4;
-  padding-top: 1.25rem;
-}
-
-.history h2 {
-  font-size: 0.95rem;
-  color: #33334d;
-  margin: 0 0 0.75rem;
-}
-
 .history-list {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  max-height: 220px;
+  max-height: 260px;
   overflow-y: auto;
 }
 

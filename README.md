@@ -19,4 +19,5 @@ A full-stack demo project: a Python ML model, an Express API that serves it, and
 - Visual range bars comparing your inputs against typical healthy ranges
 - Prediction history log with a probability trend sparkline
 
+**This is a demo/educational project trained on a small public dataset — not a medical diagnostic tool.**
 
