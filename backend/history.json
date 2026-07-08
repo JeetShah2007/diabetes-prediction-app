@@ -1,5 +1,53 @@
 [
   {
+    "Pregnancies": 0,
+    "Glucose": 120,
+    "BloodPressure": 69,
+    "BMI": 23.1,
+    "Age": 19,
+    "prediction": 0,
+    "label": "Not Diabetic",
+    "probability": 0.075,
+    "topFactors": [
+      "Pregnancies",
+      "BMI",
+      "Age"
+    ],
+    "timestamp": "2026-07-08T07:34:40.086Z"
+  },
+  {
+    "Pregnancies": 3,
+    "Glucose": 150,
+    "BloodPressure": 79,
+    "BMI": 40,
+    "Age": 55,
+    "prediction": 1,
+    "label": "Diabetic",
+    "probability": 0.695,
+    "topFactors": [
+      "Age",
+      "Glucose",
+      "BMI"
+    ],
+    "timestamp": "2026-07-04T09:59:26.246Z"
+  },
+  {
+    "Pregnancies": 1,
+    "Glucose": 85,
+    "BloodPressure": 66,
+    "BMI": 26.4,
+    "Age": 31,
+    "prediction": 0,
+    "label": "Not Diabetic",
+    "probability": 0.02,
+    "topFactors": [
+      "Glucose",
+      "Pregnancies",
+      "BMI"
+    ],
+    "timestamp": "2026-07-04T09:48:23.170Z"
+  },
+  {
     "Pregnancies": 6,
     "Glucose": 148,
     "BloodPressure": 72,
