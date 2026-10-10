@@ -1,0 +1,13 @@
+[
+  "gender_enc",
+  "age",
+  "hypertension",
+  "heart_disease",
+  "ever_married_enc",
+  "avg_glucose_level",
+  "bmi",
+  "smk_Unknown",
+  "smk_formerly smoked",
+  "smk_never smoked",
+  "smk_smokes"
+]

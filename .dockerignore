@@ -1,0 +1,6 @@
+**/node_modules
+backend/history
+frontend
+.git
+*.log
+ml/*/*.csv

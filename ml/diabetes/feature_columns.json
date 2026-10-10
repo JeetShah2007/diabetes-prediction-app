@@ -1,0 +1,13 @@
+[
+  "gender_enc",
+  "age",
+  "hypertension",
+  "heart_disease",
+  "bmi",
+  "HbA1c_level",
+  "blood_glucose_level",
+  "smk_current",
+  "smk_former",
+  "smk_never",
+  "smk_unknown"
+]

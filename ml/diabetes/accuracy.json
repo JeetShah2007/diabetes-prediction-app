@@ -1,0 +1,6 @@
+{
+  "accuracy": 0.905,
+  "cv_accuracy": 0.906,
+  "recall": 0.9094,
+  "dataset_size": 100000
+}

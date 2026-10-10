@@ -1,0 +1,13 @@
+[
+  "age",
+  "sex_enc",
+  "trestbps",
+  "chol",
+  "fbs_enc",
+  "thalch",
+  "exang_enc",
+  "cp_asymptomatic",
+  "cp_atypical angina",
+  "cp_non-anginal",
+  "cp_typical angina"
+]
