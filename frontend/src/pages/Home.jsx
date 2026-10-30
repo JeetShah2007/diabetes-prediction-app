@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import ScrollReveal from "../components/ScrollReveal";
-import { DISEASE_LIST } from "../config/diseaseConfigs";
+import ResourceLinks from "../components/ResourceLinks";
+import { DISEASE_LIST, COMMON_RESOURCES, EMERGENCY_NUMBER } from "../config/diseaseConfigs";
 
 export default function Home() {
   return (
@@ -10,8 +11,8 @@ export default function Home() {
           <h1>Your quick health check-in</h1>
           <p>
             Simple, plain-language risk checks for conditions that often matter most as we
-            age — diabetes, heart health, and stroke. Answer a few basic questions, no lab
-            coat required.
+            age: diabetes, heart health, and stroke. Answer a few questions and get an
+            estimate with clear next steps.
           </p>
         </section>
       </ScrollReveal>
@@ -32,11 +33,19 @@ export default function Home() {
       <ScrollReveal>
         <section className="home-note">
           <p>
-            🩺 These are educational demo tools, not medical diagnoses. If you're worried
-            about your health, please talk to a doctor — these checks are a nudge to pay
-            attention, not a replacement for one.
+            🩺 These checks give an estimate from the details you enter. After checking, please
+            also consult a doctor. Only a doctor can examine you, order the right tests and
+            confirm anything.
           </p>
         </section>
+      </ScrollReveal>
+
+      <ScrollReveal>
+        <ResourceLinks
+          title="Need to talk to a doctor?"
+          emergencyNumber={EMERGENCY_NUMBER}
+          sections={[{ heading: "Get care", items: COMMON_RESOURCES }]}
+        />
       </ScrollReveal>
     </div>
   );

@@ -1,9 +1,13 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Field from "../components/Field";
+import Checklist from "../components/Checklist";
+import NextSteps from "../components/NextSteps";
+import ResourceLinks from "../components/ResourceLinks";
 import ScrollReveal from "../components/ScrollReveal";
 import { RangeBar, ProbabilityRing, Sparkline } from "../components/Visuals";
 import { visitorHeaders } from "../utils/visitor";
+import { COMMON_RESOURCES, EMERGENCY_NUMBER } from "../config/diseaseConfigs";
 
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
@@ -29,12 +33,16 @@ export default function HealthCheckPage({ config }) {
 
   const [form, setForm] = useState(buildInitialForm(config));
   const [bmiInputs, setBmiInputs] = useState({ height: "", weight: "" });
+  const [checked, setChecked] = useState({});
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [history, setHistory] = useState([]);
 
   const bmi = hasBmiField ? calcBmi(bmiInputs.height, bmiInputs.weight) : null;
+
+  const shortLabel = (key) =>
+    config.fields.find((f) => f.key === key)?.shortLabel || (key === "bmi" ? "BMI" : key);
 
   const loadHistory = async () => {
     try {
@@ -52,6 +60,7 @@ export default function HealthCheckPage({ config }) {
     // Reset everything when navigating between health check pages
     setForm(buildInitialForm(config));
     setBmiInputs({ height: "", weight: "" });
+    setChecked({});
     setResult(null);
     setError(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -65,6 +74,10 @@ export default function HealthCheckPage({ config }) {
     setBmiInputs({ ...bmiInputs, [e.target.name]: e.target.value });
   };
 
+  const handleToggleCheck = (id) => {
+    setChecked({ ...checked, [id]: !checked[id] });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
@@ -72,7 +85,7 @@ export default function HealthCheckPage({ config }) {
 
     const unanswered = config.fields.filter((f) => f.type !== "bmi" && form[f.key] === "");
     if (unanswered.length > 0) {
-      setError(`Please answer: ${unanswered.map((f) => f.label.replace(/[?]$/, "")).join(", ")}`);
+      setError(`Please answer: ${unanswered.map((f) => f.shortLabel || f.label).join(", ")}`);
       return;
     }
 
@@ -89,7 +102,10 @@ export default function HealthCheckPage({ config }) {
       const res = await axios.post(`${API_BASE}/${config.apiPath}/predict`, payload, {
         headers: visitorHeaders(),
       });
-      setResult(res.data);
+      // Remember which checklist boxes were ticked at the moment of checking,
+      // so the advice always matches this result.
+      const checkedIds = Object.keys(checked).filter((id) => checked[id]);
+      setResult({ ...res.data, checkedIds });
       loadHistory();
     } catch (err) {
       setError(err.response?.data?.error || "Something went wrong. Is the backend running?");
@@ -110,6 +126,7 @@ export default function HealthCheckPage({ config }) {
   const handleReset = () => {
     setForm(buildInitialForm(config));
     setBmiInputs({ height: "", weight: "" });
+    setChecked({});
     setResult(null);
     setError(null);
   };
@@ -126,8 +143,7 @@ export default function HealthCheckPage({ config }) {
     setError(null);
   };
 
-  // Which numeric fields (besides BMI) have a reference range worth showing
-  // in the Analysis section as a range bar.
+  // Numeric fields (besides BMI) with a reference range shown as a range bar.
   const rangeFieldKeys = Object.keys(config.ranges || {}).filter((k) => k !== "bmi" || hasBmiField);
 
   return (
@@ -155,7 +171,7 @@ export default function HealthCheckPage({ config }) {
                     <div className="field">
                       <label htmlFor="height">Height (cm)</label>
                       <input
-                        id="height" name="height" type="number" step="any"
+                        id="height" name="height" type="number" step="any" min="50" max="250"
                         value={bmiInputs.height} onChange={handleBmiChange}
                         placeholder="e.g. 170" required
                       />
@@ -163,7 +179,7 @@ export default function HealthCheckPage({ config }) {
                     <div className="field">
                       <label htmlFor="weight">Weight (kg)</label>
                       <input
-                        id="weight" name="weight" type="number" step="any"
+                        id="weight" name="weight" type="number" step="any" min="10" max="300"
                         value={bmiInputs.weight} onChange={handleBmiChange}
                         placeholder="e.g. 68" required
                       />
@@ -175,6 +191,17 @@ export default function HealthCheckPage({ config }) {
                 ) : (
                   <Field key={f.key} field={f} value={form[f.key]} onChange={handleChange} />
                 )
+              )}
+
+              {config.checklist && (
+                <div className="form-wide">
+                  <Checklist
+                    checklist={config.checklist}
+                    checked={checked}
+                    onToggle={handleToggleCheck}
+                    emergencyNumber={EMERGENCY_NUMBER}
+                  />
+                </div>
               )}
 
               <div className="actions">
@@ -218,7 +245,7 @@ export default function HealthCheckPage({ config }) {
               <div className="why-list">
                 {config.fields.map((f) => (
                   <div className="why-item" key={f.key}>
-                    <span className="why-label">{f.label.replace(/[?]$/, "").split("(")[0].trim()}</span>
+                    <span className="why-label">{f.shortLabel || f.label}</span>
                     <span className="why-text">{config.whyItMatters[f.key]}</span>
                   </div>
                 ))}
@@ -229,19 +256,16 @@ export default function HealthCheckPage({ config }) {
               <div className="info-block">
                 <h2>Reference values</h2>
                 <p className="info-note">
-                  Typical healthy ranges, shown for context — you can still enter any value,
-                  they're not a limit on what you can submit.
+                  Typical healthy ranges, shown for context. You can still enter any value; they
+                  are not a limit on what you can submit.
                 </p>
                 <div className="legend-list">
                   {rangeFieldKeys.map((key) => {
                     const r = config.ranges[key];
-                    const fieldLabel =
-                      config.fields.find((f) => f.key === key)?.label.split("(")[0].trim() ||
-                      (key === "bmi" ? "BMI" : key);
                     return (
                       <div className="legend-item" key={key}>
                         <span className="legend-dot" style={{ background: `${config.color}55` }} />
-                        <span className="legend-label">{fieldLabel}</span>
+                        <span className="legend-label">{shortLabel(key)}</span>
                         <span className="legend-value">
                           {r.normalMin != null ? `${r.normalMin}–${r.normalMax}${r.unit}` : "varies"}
                         </span>
@@ -253,8 +277,8 @@ export default function HealthCheckPage({ config }) {
             )}
 
             <div className="info-block disclaimer-block">
-              {config.modelInfoNote} This is a demo tool, not a medical diagnosis — please
-              consult a doctor for actual health concerns.
+              {config.modelInfoNote} Your result is an estimate, not a diagnosis. After checking,
+              please also consult a doctor to confirm it.
             </div>
           </div>
         </div>
@@ -287,14 +311,11 @@ export default function HealthCheckPage({ config }) {
                 <div className="range-bars">
                   {rangeFieldKeys.map((key) => {
                     const r = config.ranges[key];
-                    const fieldLabel =
-                      config.fields.find((f) => f.key === key)?.label.split("(")[0].trim() ||
-                      (key === "bmi" ? "BMI" : key);
                     const value = key === "bmi" ? (bmi ? Number(bmi.toFixed(1)) : null) : Number(form[key]);
                     return (
                       <RangeBar
                         key={key}
-                        label={fieldLabel}
+                        label={shortLabel(key)}
                         value={value}
                         unit={r.unit}
                         min={r.min}
@@ -306,17 +327,36 @@ export default function HealthCheckPage({ config }) {
                   })}
                 </div>
               )}
+
+              <NextSteps
+                config={config}
+                result={result}
+                checkedIds={result.checkedIds}
+                emergencyNumber={EMERGENCY_NUMBER}
+              />
             </>
           ) : (
             <div className="empty-state">
               <div className="empty-state-icon">📊</div>
               <p>
-                Fill in the form and hit <strong>Check Risk</strong> — your result will appear
-                here.
+                Fill in the form and hit <strong>Check Risk</strong>. Your result and next steps will
+                appear here.
               </p>
             </div>
           )}
         </div>
+      </ScrollReveal>
+
+      {/* --- Helpful resources --- */}
+      <ScrollReveal>
+        <ResourceLinks
+          title="Helpful resources"
+          emergencyNumber={EMERGENCY_NUMBER}
+          sections={[
+            { heading: `Learn more about ${config.topicName}`, items: config.resources },
+            { heading: "Talk to a doctor", items: COMMON_RESOURCES },
+          ]}
+        />
       </ScrollReveal>
 
       {/* --- History section --- */}
@@ -355,7 +395,7 @@ export default function HealthCheckPage({ config }) {
           ) : (
             <div className="empty-state">
               <div className="empty-state-icon">🕓</div>
-              <p>No checks yet — your history will show up here once you run one.</p>
+              <p>No checks yet. Your history will show up here once you run one.</p>
             </div>
           )}
         </div>

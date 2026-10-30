@@ -851,3 +851,266 @@ button {
 .clear-btn:active {
   transform: scale(0.94);
 }
+
+/* ---------- Symptom checklist ---------- */
+.form-wide {
+  grid-column: 1 / -1;
+}
+
+.checklist {
+  margin-top: 0.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
+}
+
+.checklist h2 {
+  margin-bottom: 0.4rem;
+}
+
+.checklist-note {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.check-group {
+  margin-bottom: 1rem;
+  padding: 0.9rem 1rem;
+  border-radius: 14px;
+  background: #f7fbf9;
+  border: 1px solid var(--border);
+}
+
+.check-group.emergency {
+  background: #fff5f6;
+  border-color: #ffd0d8;
+}
+
+.check-group-title {
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.check-group.emergency .check-group-title {
+  color: #b3304f;
+}
+
+.check-group-intro {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin: 0.15rem 0 0.4rem;
+}
+
+.check-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  margin-top: 0.4rem;
+}
+
+.check-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  padding: 0.45rem 0.4rem;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.check-item:hover {
+  background: rgba(47, 158, 117, 0.08);
+}
+
+.check-group.emergency .check-item:hover {
+  background: rgba(217, 72, 107, 0.08);
+}
+
+.check-item input {
+  width: 19px;
+  height: 19px;
+  margin-top: 0.1rem;
+  flex-shrink: 0;
+  accent-color: var(--primary);
+  cursor: pointer;
+}
+
+.check-group.emergency .check-item input {
+  accent-color: #d9486b;
+}
+
+.emergency-alert {
+  margin-bottom: 1rem;
+  padding: 0.9rem 1rem;
+  border-radius: 14px;
+  background: #d9486b;
+  color: #fff;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  animation: slideUp 0.35s ease;
+}
+
+.emergency-alert a {
+  color: #fff;
+  font-weight: 800;
+  text-decoration: underline;
+}
+
+/* ---------- Next steps (under the result) ---------- */
+.next-steps {
+  margin-top: 1.5rem;
+  padding: 1.25rem 1.35rem;
+  border-radius: 16px;
+  border: 1.5px solid var(--border);
+  background: #f7fbf9;
+  animation: slideUp 0.45s ease;
+}
+
+.next-steps.urgent {
+  background: #fff3f5;
+  border-color: #f3a3b2;
+}
+
+.next-steps.soon {
+  background: #fffaf0;
+  border-color: #f5d79a;
+}
+
+.next-steps-head {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.4rem;
+}
+
+.next-steps-icon {
+  font-size: 1.5rem;
+}
+
+.next-steps h3 {
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+.next-steps h4 {
+  font-size: 0.85rem;
+  font-weight: 800;
+  margin: 1rem 0 0.35rem;
+  color: var(--primary-dark);
+}
+
+.next-steps.urgent h4 {
+  color: #b3304f;
+}
+
+.next-steps p {
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.next-steps ul {
+  padding-left: 1.15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.next-steps li {
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.next-steps-foot {
+  margin-top: 1rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--border);
+  font-weight: 700;
+}
+
+/* ---------- Helpful resources ---------- */
+.resources-panel {
+  margin-bottom: 1.5rem;
+}
+
+.resource-emergency {
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  background: #fff3f5;
+  border: 1px solid #ffd0d8;
+  color: #8f2440;
+  font-size: 0.92rem;
+  font-weight: 700;
+  margin-bottom: 1.1rem;
+}
+
+.resource-emergency a {
+  color: #d9486b;
+  font-weight: 800;
+}
+
+.resource-section {
+  margin-bottom: 1.1rem;
+}
+
+.resource-section h3 {
+  font-size: 0.9rem;
+  font-weight: 800;
+  margin-bottom: 0.6rem;
+}
+
+.resource-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem;
+}
+
+.resource-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.9rem 1rem;
+  border-radius: 14px;
+  border: 1.5px solid var(--border);
+  background: #fbfdfc;
+  text-decoration: none;
+  color: var(--text);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.resource-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--primary);
+  box-shadow: 0 8px 18px rgba(31, 80, 65, 0.1);
+}
+
+.resource-card:active {
+  transform: scale(0.97);
+}
+
+.resource-label {
+  font-weight: 800;
+  font-size: 0.92rem;
+  color: var(--primary-dark);
+}
+
+.resource-note {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.resource-host {
+  font-size: 0.72rem;
+  color: var(--muted);
+  opacity: 0.8;
+}
+
+.resource-disclaimer {
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 1.5;
+}

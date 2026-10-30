@@ -28,7 +28,7 @@ export default function App() {
         </Routes>
       </main>
       <footer className="app-footer">
-        Educational demo tool — not a substitute for professional medical advice.
+        This is an estimate, not a diagnosis. After checking, please also consult a doctor.
       </footer>
     </div>
   );

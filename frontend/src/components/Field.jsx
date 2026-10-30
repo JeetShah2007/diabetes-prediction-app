@@ -15,6 +15,8 @@ export default function Field({ field, value, onChange }) {
           name={field.key}
           type="number"
           step="any"
+          min={field.min}
+          max={field.max}
           value={value}
           onChange={(e) => onChange(field.key, e.target.value)}
           placeholder={field.placeholder}
